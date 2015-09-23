@@ -20,6 +20,22 @@ namespace famiLYNX3.Infrastructure {
             return _db.Set<T>().AsQueryable();
         }
 
+        public IQueryable<Family> QueryFamily() {
+            return Query<Family>().Include(m => m.ConversationList);
+        }
+
+        public IQueryable<Conversation> QueryConversation() {
+            return Query<Conversation>().Include(m => m.MessageList);
+        }
+
+        public IQueryable<Message> QueryMessage() {
+            return Query<Message>().Include(m => m.Contributor);
+        }
+
+        public IQueryable<InviteOrPlea> QueryInviteOrPlea() {
+            return Query<InviteOrPlea>().Include(m => m.Family);
+        }
+
         public T Find<T>(params object[] keyValues) where T : class {
             return _db.Set<T>().Find(keyValues);
         }

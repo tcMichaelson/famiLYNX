@@ -1,0 +1,170 @@
+﻿<div>
+    <!--User Name-->
+    <header>
+        <h1 ng-if="self.page==='profile'">{{self.user.UserName}}</h1>
+        <div>
+            <h1 ng-if="self.page==='family'">{{self.selectedFamily.OrgName}}<span style="cursor: pointer;" ng-if="self.page==='family'" ng-click="self.page='profile'">Go back to profile</span></h1>
+        </div>
+    </header>
+
+    <!--List of Conversation Topics-->
+    <div class="pane pane-container" ng-if="self.page==='family'">
+        <div class="pane pane-default">
+            <div class="pane pane-heading">Topics</div>
+            <div class="pane pane-content">
+                <label class="pane pane-item" ng-repeat="convo in self.selectedFamily.ConversationList">Topic: {{convo.Topic}}<br />Started By: {{convo.CreatedBy.FirstName}}</label>
+                <label ng-show="self.selectedFamily.ConversationList === undefined" class="pane pane-item">No topics to display, yet...<br />Add a topic below</label>
+                <div ng-show="false" class="scroll scroll-up"><img src="../Content/arrow.png" /></div>
+                <div ng-show="true" class="scroll scroll-down"><img src="../Content/arrow.png" /></div>
+            </div>
+
+            <!--Start a conversation-->
+            <form class="pane pane-footer" ng-submit="self.addConvo(self.newTopic, self.selectedFamily)">
+                <input type="text" ng-model="self.newTopic" placeholder="What do you want to talk about?  Enter new topic." />
+                <input type="submit" class="btn btn-default" value="Start" />
+            </form>
+
+        </div>
+    </div>
+
+
+    <!--Display All Families-->
+    <div ng-if="self.page==='profile'" class="pane pane-container">
+
+
+        <div class="pane pane-heading">Your Families</div>
+        <div class="pane pane-content">
+            <label class="pane pane-item" ng-repeat="family in self.families">Name: {{family.OrgName}}<br /> UserName: {{family.FamilyUserName}}<button ng-if="family.CreatedBy.Id === self.user.Id" ng-click="self.deleteFamily(family)"><img src="/Content/ex.png" /></button></label>
+            <div ng-show="false" class="scroll scroll-up"><img src="../Content/arrow.png" /></div>
+            <div ng-show="true" class="scroll scroll-down"><img src="../Content/arrow.png" /></div>
+        </div>
+
+        <!--join a family-->
+        <form class="pane pane-footer" ng-submit="self.createFamily()">
+            <!--align left-->
+            <input type="text" ng-model="self.families.newFamilyName" placeholder="Name of family you would like to start or join" />
+            <input ng-disabled="self.Editing==='y'" type="submit" class="btn btn-default" value="Submit" />
+            <!--align right-->
+
+        </form>
+
+
+    </div>
+
+    <div ng-if="false" class="noContent">
+        <!--FIRST FAMILY BOX Family Pleas-->
+        <!--show this regardless since you can still request to join a family-->
+        <!--<div class="pane pane-default">
+
+            <!--Box header -->
+        <!--    <div>
+                <div class="pane pane-heading">Current Requests</div>
+            </div>
+
+            <!--Message Body individual pleas-->
+        <!--background color white-->
+        <!--forecolor is dark blue-->
+        <!--<div class="pane pane-content" ng-repeat="invite in self.inviteOrPleas">
+            Inviter: {{invite.Inviter.FirstName}} <br />
+            Approver: {{invite.Approver.FirstName}}
+            Email: {{invite.Email}}
+            Family: {{invite.Family.FamUserName}}
+        </div>
+
+
+        <!--footer text box is join family entry-->
+        <!--join a family-->
+        <!--<div>
+             <form name="pleaForm" ng-submit="self.createPlea">
+                     <!--align left-->
+        <!--    <inpu
+        t name="famUse
+        rName" class="pane pane-footer" type="text" ng-model="self.newPleaFamilyName" placeholder="UserName of family you would like to join" />
+            <input type="submit" class="btn btn-default" value="Join" ng-disabled="self.Editing === 'y' || self.newPleaFamilyName === '' || self.isFamUName(self.newPleaFamilyName) !== undefined" />
+            <!--align right-->
+        <!--</form>
+        </div>
+            </div>
+            -->
+    </div>
+
+    <!--Conve
+    </div>
+
+    </div>
+        </div>
+        -->
+    <!--Conversation Box-->
+    <div ng-if="self.page==='family'" class="pane pane-container" ng-repeat="convo in self.selectedFamily.ConversationList">
+
+
+        <div class="pane pane-heading">{{convo.Topic}}</div>
+        <div class="pane pane-content">
+            <label ng-repeat="msg in convo.MessageList" class="pane pane-item">{{msg.Text}} <span>&nbsp;&nbsp;&mdash;&nbsp;&nbsp;{{msg.Contributor.FirstName}}</span></label>
+            <div ng-show="false" class="scroll scroll-up"><img src="../Content/arrow.png" /></div>
+            <div ng-show="true" class="scroll scroll-down"><img src="../Content/arrow.png" /></div>
+        </div>
+        <p>{{self.selectedFamily.currentConvo.Topic}}</p>
+        <p>{{self.selectedFamily.currentConvo.MessageList[0].Text}}</p>
+        <p>{{self.selectedFamily.currentConvo.MessageList[0].Contributor.FirstName}}</p>
+        <!--footer/new message entry / go to family button-->
+        <form class="pane pane-footer" ng-submit="self.addMessage(self[convo.Key].newMessage, self.selectedFamily.currentConvo)">
+            <input ng-focus="self.selectedFamily.currentConvo = convo" ng-model="self[convo.Key].newMessage" type="text" placeholder="Add contribution here..." />
+            <input ng-focus="self.selectedFamily.currentConvo = convo" type="submit" class="btn btn-default" value="Send" />
+        </form>
+    </div>
+    <p>{{self.selectedFamily.ConversationList[0].MessageList}}</p>
+
+    <!--family box-->
+    <div ng-if="self.page==='profile'" class="pane pane-container" ng-repeat="fam in self.families">
+
+
+        <!--header div / family name-->
+        <div class="pane pane-heading">{{fam.OrgName}}</div>
+        <!--main message body / topic list-->
+        <!--background color is -->
+        <div class="pane pane-content">
+            <label class="pane pane-item" ng-repeat="convo in fam.ConversationList">{{convo.Topic}} <br /> - {{convo.CreatedBy.FirstName}}</label>
+            <div ng-show="false" class="scroll scroll-up"><img src="../Content/arrow.png" /></div>
+            <div ng-show="true" class="scroll scroll-down"><img src="../Content/arrow.png" /></div>
+        </div>
+        <!--footer/new message entry / go to family button-->
+        <form class="pane pane-footer">
+            <input ng-click="self.selectedFamily=fam; self.page='family'" ng-disabled="self.Editing === 'y'" class="btn btn-default" type="submit" value="Go To This Family" />
+        </form>
+
+
+    </div>
+
+    <!--Profile info-->
+    <div class="pane pane-container" ng-if="self.page === 'profile'">
+
+        <div class="pane pane-heading">Profile</div>
+        <!--profile form view and update-->
+        <div class="pane pane-content">
+            <label class="pane pane-item" style="height: 55px;">
+                Email: <br />
+                <input type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.Email" placeholder="Email" />
+            </label>
+            <label class="pane pane-item" style="height: 55px;">
+                First Name: <br />
+                <input type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.FirstName" placeholder="First Name" />
+            </label>
+            <label class="pane pane-item" style="height: 55px;">
+                Last Name: <br />
+                <input type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.LastName" placeholder="Last Name" />
+            </label>
+            <label class="pane pane-item" style="height: 80px">
+                Address:<br />
+                <input placeholder="Street" type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.UserAddress.Street" />
+                <input placeholder="ST" type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.UserAddress.State" style="width: 25%" />
+                <input placeholder="City" type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.UserAddress.City" />
+                <input placeholder="Zip Code" type="text" ng-disabled="self.Editing === 'n'" ng-model="self.user.UserAddress.Zip" />
+            </label>
+        </div>
+        <form class="pane pane-footer">
+            <input ng-if="self.Editing === 'y'" ng-click="self.Editing = 'n'; self.updateUserInfo();" class="btn btn-default" type="submit" value="Save Changes" style="background-color: #FFCC33" />
+            <input ng-if="self.Editing === 'n'" ng-click="self.Editing = 'y'" class="btn btn-default" type="submit" value="Edit My Profile" />
+        </form>
+    </div>
+</div>

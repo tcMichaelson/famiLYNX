@@ -11,6 +11,8 @@ namespace famiLYNX3
 
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
+
+
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
@@ -32,7 +34,7 @@ namespace famiLYNX3
                 RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false,
             };
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

@@ -44,25 +44,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -191,6 +199,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\ConversationsController.cs" />
+    <Compile Include="API\FamiliesController.cs" />
+    <Compile Include="API\InviteOrPleasController.cs" />
+    <Compile Include="API\MessagesController.cs" />
+    <Compile Include="API\UsersController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -235,24 +248,76 @@
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Infrastructure\NinjectInfrastructureConfig.cs" />
     <Compile Include="Infrastructure\Repository.cs" />
+    <Compile Include="Migrations\201509181525080_initial.cs" />
+    <Compile Include="Migrations\201509181525080_initial.Designer.cs">
+      <DependentUpon>201509181525080_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Conversation.cs" />
+    <Compile Include="Models\ConversationsAttendedByMembers.cs" />
+    <Compile Include="Models\ConversationsVisibleToMembers.cs" />
+    <Compile Include="Models\Family.cs" />
+    <Compile Include="Models\FamilyType.cs" />
+    <Compile Include="Models\FamilyUser.cs" />
+    <Compile Include="Models\IPubDbObject.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InviteOrPlea.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\ViewModels\ConversationViewModel.cs" />
+    <Compile Include="Models\ViewModels\CreateConversationViewModel.cs" />
+    <Compile Include="Models\ViewModels\CreateMessageViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditProfileViewModel.cs" />
+    <Compile Include="Models\ViewModels\FamilyViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\AddressDTO.cs" />
     <Compile Include="Services\AllServices.cs" />
+    <Compile Include="Services\ApplicationUserDTO.cs" />
+    <Compile Include="Services\AutoMapperConfig.cs" />
+    <Compile Include="Services\ConversationDTO.cs" />
+    <Compile Include="Services\ConversationsAttendedByMembersDTO.cs" />
+    <Compile Include="Services\ConversationsVisibleToMembersDTO.cs" />
+    <Compile Include="Services\FamilyDTO.cs" />
+    <Compile Include="Services\FamilyTypeDTO.cs" />
+    <Compile Include="Services\FamilyUserDTO.cs" />
+    <Compile Include="Services\InviteOrPleaDTO.cs" />
+    <Compile Include="Services\MessageDTO.cs" />
     <Compile Include="Services\NinjectServiceConfig.cs" />
+    <Compile Include="Services\OrgRoleDTO.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular\scripts\accountService.js" />
+    <Content Include="angular\scripts\CreatorService.js" />
+    <Content Include="angular\scripts\familyController.js" />
+    <Content Include="angular\scripts\profileController.js" />
+    <Content Include="angular\scripts\profileService.js" />
+    <Content Include="angular\scripts\registerController.js" />
+    <Content Include="angular\views\NoSuchPage.html" />
+    <Content Include="angular\views\Register.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\arrow.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\brokenlink.jpg" />
+    <Content Include="Content\checkmark.png" />
+    <Content Include="Content\ex.png" />
+    <Content Include="Content\fixthatlink.jpg" />
+    <Content Include="Content\maybe.png" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
@@ -280,6 +345,8 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <None Include="Properties\PublishProfiles\familynx.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -289,8 +356,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="angular\scripts\app.js" />
+    <Content Include="angular\scripts\loginController.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="angular\views\Login.html" />
+    <Content Include="angular\views\Family.html" />
+    <Content Include="angular\views\Profile.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -299,7 +371,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -309,6 +380,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Member\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -317,6 +390,11 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201509181525080_initial.resx">
+      <DependentUpon>201509181525080_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

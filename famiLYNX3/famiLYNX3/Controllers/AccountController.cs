@@ -25,7 +25,7 @@ namespace famiLYNX3.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
-
+        
         public AccountController()
         {
         }
@@ -67,7 +67,8 @@ namespace famiLYNX3.Controllers
         }
 
         // POST api/Account/Logout
-        [Route("Logout")]
+        [HttpPost]
+        [Route("Logout", Name = "Logout")]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
@@ -320,7 +321,7 @@ namespace famiLYNX3.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("Register", Name = "RegisterUser")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)

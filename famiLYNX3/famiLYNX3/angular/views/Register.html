@@ -1,0 +1,58 @@
+﻿<div sstyle="margin-top: 100px;">
+    <form name="registerForm" class="form-group" onsubmit="self.register()">
+        <div class="col-md-6">
+            <label class="control-label col-md-3">
+                E-Mail:
+                <input class="form-control col-md-9" type="text" ng-model="self.Email" />
+            </label>
+        </div>
+
+        <div class="col-md-6">
+            <label class="control-label col-md-3">
+                Password:
+                <input class="form-control col-md-9" type="password" ng-model="self.Password" />
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label class="control-label col-md-3">
+                Confirm Password:
+                <input class="form-control col-md-9" type="password" ng-model="self.ConfirmPassword" />
+            </label>
+        </div>
+
+        <div>
+            <label class="control-label col-md-3">
+                First Name:
+                <input class="form-control col-md-9" type="text" ng-model="self.FirstName" />
+            </label>
+        </div>
+
+        <div class="col-md-6">
+            <fieldset class="form-group">
+                <legend>Username Preference</legend>
+                <div>
+                    <label class="control-label">
+                        Login with my email address
+                        <input name="userNamePref" ng-model="self.userNamePref" type="radio" value="useemail" />
+                    </label>
+                </div>
+                <div>
+                    <label class="control-label">
+                        Enter a unique User Name
+                        <input name="userNamePref" ng-model="self.userNamePref" type="radio" value="enterusername" />
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="col-md-6">
+            <label class="control-label col-md-3">
+                User Name:
+                <input ng-show="self.userNamePref === 'enterusername'" class="form-control col-md-9" type="text" ng-model=self.UserName />
+                <label ng-show="self.userNamePref === 'useemail'" class="col-md-9">{{self.Email}}</label>
+            </label>
+        </div>
+        <input type="submit" value="Register" />
+
+    </form>
+</div>

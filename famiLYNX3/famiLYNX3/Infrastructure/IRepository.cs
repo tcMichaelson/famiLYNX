@@ -1,4 +1,5 @@
-﻿using System;
+﻿using famiLYNX3.Models;
+using System;
 using System.Linq;
 
 namespace famiLYNX3.Infrastructure {

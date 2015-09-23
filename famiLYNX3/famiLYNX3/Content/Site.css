@@ -3,15 +3,319 @@
     padding-bottom: 20px;
 }
 
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
-input,
 select,
 textarea {
     max-width: 280px;
 }
+
+header, body {
+    max-width: 1200px;
+    background-color: #47697E;
+}
+
+h1 {
+    color: #FFCC33;
+    margin-left: 150px;
+    width: 650px;
+}
+
+h1 span{
+    color: rgb(50,50,50);
+    float: right;
+    font-size: 16px;
+}
+
+body {
+
+}
+
+.scroll{
+    background-color: #68889A;
+    position: absolute;
+    height: 15px;
+    width: 100%;
+}
+
+.scroll.scroll-up{
+    border-bottom: 1px solid rgb(50,50,50);
+    top: 0;
+}
+
+.scroll.scroll-down{
+    border-top: 1px solid rgb(50,50,50);
+    bottom: 0;
+}
+
+.scroll img{
+    position: absolute;
+    height: 10px; 
+    width: 100%;
+}
+
+.scroll:hover{
+    background-color: #47697E;
+}
+
+.scroll.scroll-up > img {
+    top: 1px;
+}
+
+.scroll.scroll-down > img{
+    top: 2px;
+    transform: rotate(180deg);
+}
+
+.pane.pane-container{
+    background-color: #68889A;
+    border-radius: 4px;
+    float: left;
+    margin: 15px;
+    position: relative;
+    height: 500px;
+    width: 500px;
+}
+
+.pane.pane-heading{
+    border-bottom: 3px solid #FFCC33;
+    font-size: medium;
+    padding-top: 6px;
+    position: absolute;
+    text-align: center;
+    top: 0px;
+    width: 100%;
+    height: 10%;
+}
+
+.pane.pane-content{
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+}
+
+.pane.pane-item{
+    background-color: white;
+    margin: 5px 2.5%;
+    padding: 8px 12px;
+    position: relative;
+    top: 5px;
+    width: 95%;
+}
+
+.pane.pane-item > button{
+    background-color: rgb(225,225,225);
+    border: none;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 45px;
+}
+
+.pane.pane-item img{
+    position: relative;
+    width: 25px;
+}
+
+
+.pane.pane-footer{
+    bottom: 0px;
+    position: absolute;
+    width:100%;
+    height: 10%;
+}
+
+.pane.pane-footer input{
+    border: none;
+    height: 100%;    
+    position: absolute;
+}
+
+
+.pane.pane-footer > input[type="text"]{
+    border-radius: 0 0 0 4px;
+    padding: 0px 15px;
+    position: relative;
+    width: 430px;
+}
+.pane.pane-footer > input[type="submit"]{
+    border-radius: 0 0 4px 0;
+    background-color: rgb(225,225,225);
+    right: 0px;
+    width: 70px;
+}
+
+.pane.pane-footer > input[type="submit"]:hover{
+    background-color: rgb(210,210,210);
+}
+
+.pane.pane-footer > input:only-child{
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+    width: 100%;
+}
+/*
+* {
+    outline: 1px solid red;
+}
+
+/*
+.panel.panel-container{
+    float: left;
+    position: relative;
+    margin: 10px;
+    
+}
+
+    .panel.panel-default {
+        background-color: #68889A;
+        border: none;
+        height: 400px;
+        position: absolute;
+        float: left;
+        width: 400px;
+    }
+
+    div.panel.panel-content {
+        border: none;
+        bottom: 0px;
+        height: 320px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        position: absolute;
+        width: 100%
+    }
+
+    .panel.panel-heading {
+        color: rgb(50,50,50);
+        background-color: #68889A;
+        font-size: medium;
+        text-align: center;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid #FFCC33;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        margin-bottom: 0px;
+        padding: 8px 8px;
+        top: 0px;
+        position: absolute;
+        width: 100%;
+    }
+
+.panel.panel-item {
+    border-radius: 0px;
+    font-weight: normal;
+    height: 40px;
+    left: 2.5%;
+    margin-top: 0px;
+    margin-bottom: 12px;
+    padding: 0px;
+    position: relative;
+    top: 50px;
+    width: 95%;
+}
+
+.panel.panel-item > input[type="text"] {
+    background-color: white;
+    border: none;
+    margin-top: 4px;
+    margin-left: 8px;
+}
+
+
+form input[type="submit"]:only-child {
+    border-bottom-right-radius: 3px;
+    width: 100%;
+}
+
+.panel.panel-item button {
+    border: none;
+    height: 40px;
+    margin: 0px;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+}
+
+input.panel.panel-footer {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    display: inline-block;
+    margin-bottom: 0px;
+    padding: 0px 10px;
+    width: 334px;
+}
+
+    input.panel.panel-footer + input[type="submit"] {
+        background-color: rgb(215,215,215);
+        bottom: 0px;
+        border: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+        height: 40px;
+        position: absolute;
+        right: 0px;
+        width: 65px;
+    }
+
+.panel-footer {
+    bottom: 0px;
+    border: none;
+    height: 40px;
+    position: absolute;
+}
+
+.panel-content {
+    background-color: #68889A;
+}
+
+
+
+.messagetext {
+}
+
+.list-group-item {
+    border: 1px solid #cccccc;
+}
+
+.control-label.list-group-item {
+    border: none;
+}
+
+form[action="messages/create"] {
+    position: absolute;
+    height: 30px;
+}
+
+.form-group-sm .list-group-item {
+    padding: 5px 15px;
+}
+
+.closebox, .subscribeToggle > img {
+    float: right;
+    position: relative;
+    height: 30px;
+    width: 30px;
+}
+
+*/
