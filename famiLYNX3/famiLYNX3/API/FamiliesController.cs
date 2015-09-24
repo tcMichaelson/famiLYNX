@@ -26,7 +26,7 @@ namespace famiLYNX3.API {
             var famUsers = _repo.Query<FamilyUser>().Where(m => m.UserId == currUser.Id).ToList();
             var fams = new List<Family>();
             foreach (var fam in famUsers) {
-                fams.Add(_repo.Query<Family>().Where(f => f.Key == fam.FamilyKey).Include(f => f.CreatedBy).Include(f => f.ConversationList.Select(g => g.MessageList)).Single());
+                fams.Add(_repo.Query<Family>().Where(f => f.Key == fam.FamilyKey).Include(f => f.CreatedBy).Include(f => f.ConversationList.Select(c => c.MessageList.Select(m => m.Contributor))).Single());
             }
             return fams;
         }
@@ -50,26 +50,48 @@ namespace famiLYNX3.API {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "You did not enter a Family Name.");
             }
             var currUser = _repo.Query<ApplicationUser>().Where(a => a.UserName == User.Identity.Name).Single();
-            Family fam = _repo.Find<Family>(family.Key);
-            if (fam == null) {
+            Family dbFam = _repo.Find<Family>(family.Key);
+            if (dbFam == null) {
                 try {
-                    fam = _repo.Query<Family>().Where(f => f.FamilyUserName == family.FamilyUserName).Include(f => f.MemberList).FirstOrDefault();
-                    if (fam == null) {
+                    dbFam = _repo.Query<Family>().Where(f => f.FamilyUserName == family.FamilyUserName).Include(f => f.MemberList).FirstOrDefault();
 
-                        _service.SetFamilyKey(family);
-                        family.CreatedBy = currUser;
-                        _repo.Add<Family>(family);
-                        _repo.Add<FamilyUser>(new FamilyUser { FamilyKey = family.Key, UserId = currUser.Id });
-                        _repo.SaveChanges();
-                        var fullFamily = _repo.Query<Family>().Where(f => f.Key == family.Key).Include(f => f.CreatedBy).Include(f => f.ConversationList.Select(g => g.MessageList)).Single();
-                        return Request.CreateResponse(HttpStatusCode.Created, fullFamily);
-                    }
-                    if (fam.MemberList.Any(f => f.UserId == currUser.Id)) {
+                    Family returnFam;
+                    if (dbFam == null) {
+
+                        //Family does not exists -- add family
+                        dbFam = new Family {
+                            CreatedBy = currUser,
+                            MemberList = new List<FamilyUser> { new FamilyUser { User = currUser } },
+                            OrgName = family.FamilyUserName,
+                            FamilyUserName = family.FamilyUserName,
+                            ConversationList = new List<Conversation>()
+                        };
+                        _service.SetFamilyKey(dbFam);
+                        _repo.Add<Family>(dbFam);
+
+                        returnFam = dbFam; 
+
+                    } else if (dbFam.MemberList.Any(f => f.UserId == currUser.Id)) {
+                        // Family exists and you are already a member.
                         return Request.CreateResponse(HttpStatusCode.BadRequest, "You are already a member of this family.");
+
+                    } else {
+                        // Family exists but is owned by someone else.  Add current user and include all existing conversations and messages.
+                        dbFam.MemberList.Add(new FamilyUser { FamilyKey = dbFam.Key, UserId = currUser.Id });
+                        returnFam = dbFam;
+                        List<Conversation> dbConvos = _repo.Query<Conversation>().Where(c => c.WhichFam.Key == dbFam.Key).Include(c => c.CreatedBy).ToList();
+                        if (dbConvos != null) {
+                            returnFam.ConversationList = dbConvos;
+                            foreach (var convo in returnFam.ConversationList) {
+                                List<Message> dbMsgs = _repo.Query<Message>().Where(m => m.Conversation.Key == convo.Key).OrderBy(m => m.TimeSubmitted).Include(m => m.Contributor).ToList();
+                                if (dbMsgs != null) {
+                                    convo.MessageList = dbMsgs;
+                                }
+                            }
+                        }
                     }
-                    fam.MemberList.Add(new FamilyUser { FamilyKey = fam.Key, UserId = currUser.Id });
                     _repo.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.Created, fam);
+                    return Request.CreateResponse(HttpStatusCode.Created, returnFam);
                 } catch {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Database update failed");
                 }
@@ -78,52 +100,52 @@ namespace famiLYNX3.API {
                 try {
                     
                     //OrgName
-                    fam.OrgName = family.OrgName ?? fam.OrgName;
+                    dbFam.OrgName = family.OrgName ?? dbFam.OrgName;
 
                     //UserName
-                    fam.FamilyUserName = family.FamilyUserName ?? fam.FamilyUserName;
+                    dbFam.FamilyUserName = family.FamilyUserName ?? dbFam.FamilyUserName;
 
                     //Type
-                    fam.Type = family.Type ?? fam.Type;
+                    dbFam.Type = family.Type ?? dbFam.Type;
 
                     //Update ConversationList
-                    if (fam.ConversationList == null) {
-                        fam.ConversationList = new List<Conversation>();
+                    if (dbFam.ConversationList == null) {
+                        dbFam.ConversationList = new List<Conversation>();
                     }
                     foreach (var convo in family.ConversationList) {
-                        if (!fam.ConversationList.Contains(convo)) {
-                            fam.ConversationList.Add(convo);
+                        if (!dbFam.ConversationList.Contains(convo)) {
+                            dbFam.ConversationList.Add(convo);
                         }
                     }
 
                     //Update InviteOrPlea
-                    if (fam.InviteOrPleas == null) {
-                        fam.InviteOrPleas = new List<InviteOrPlea>();
+                    if (dbFam.InviteOrPleas == null) {
+                        dbFam.InviteOrPleas = new List<InviteOrPlea>();
                     }
                     foreach (var inv in family.InviteOrPleas) {
-                        if (!fam.InviteOrPleas.Contains(inv)) {
-                            fam.InviteOrPleas.Add(inv);
+                        if (!dbFam.InviteOrPleas.Contains(inv)) {
+                            dbFam.InviteOrPleas.Add(inv);
                         }
                     }
 
                     //Add the current user to the MemberList if not already there.
-                    if (!(fam.MemberList.Any(m => m.UserId == currUser.Id && m.FamilyKey == fam.Key))) {
-                        fam.MemberList.Add(new FamilyUser { FamilyKey = family.Key, UserId = currUser.Id });
+                    if (!(dbFam.MemberList.Any(m => m.UserId == currUser.Id && m.FamilyKey == dbFam.Key))) {
+                        dbFam.MemberList.Add(new FamilyUser { FamilyKey = family.Key, UserId = currUser.Id });
                     }
 
                     //Update MemberList to include members in the model sent in.
-                    if (fam.MemberList == null) {
-                        fam.MemberList = new List<FamilyUser>();
+                    if (dbFam.MemberList == null) {
+                        dbFam.MemberList = new List<FamilyUser>();
                     }
 
                     foreach (var member in family.MemberList) {
-                        if (!fam.MemberList.Contains(member)) {
-                            fam.MemberList.Add(member);
+                        if (!dbFam.MemberList.Contains(member)) {
+                            dbFam.MemberList.Add(member);
                         }
                     }
 
                     _repo.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, fam);
+                    return Request.CreateResponse(HttpStatusCode.OK, dbFam);
                 } catch {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Database update failed.");
                 }
@@ -134,21 +156,23 @@ namespace famiLYNX3.API {
         [Route("Delete", Name = "DeleteFamily")]
         public HttpResponseMessage Delete(string key) {
             try {
-                FamilyUser famUser;
-                while ((famUser = _repo.Query<FamilyUser>().Where(f => f.FamilyKey == key).FirstOrDefault()) != null) {
-                    _repo.Delete<FamilyUser>(famUser.Id);
-                    _repo.SaveChanges();
-                }
+                Family dbFam = _repo.Find<Family>(key);
 
-                Message message;
-                Conversation convo;
-                while ((convo = _repo.Query<Conversation>().Where(c => c.WhichFam.Key == key).FirstOrDefault()) != null) {
-                    while ((message = _repo.Query<Message>().Where(m => m.Conversation.Key == convo.Key).FirstOrDefault()) != null) {
+                List<FamilyUser> famUsers = _repo.Query<FamilyUser>().Where(f => f.FamilyKey == key).ToList();
+                foreach (var famUser in famUsers) {
+                    _repo.Delete<FamilyUser>(famUser.Id);
+                }
+                
+                List<Conversation> convos = _repo.Query<Conversation>().Where(c => c.WhichFam.Key == key).ToList();
+                List<Message> messages;
+                foreach (var convo in convos) {
+                    messages = _repo.Query<Message>().Where(m => m.Conversation.Key == convo.Key).ToList();
+                    foreach (var message in messages) {
                         _repo.Delete<Message>(message.Key);
                     }
                     _repo.Delete<Conversation>(convo.Key);
-                    _repo.SaveChanges();
                 }
+                
                 _repo.Delete<Family>(key);
                 _repo.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK);

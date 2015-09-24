@@ -5,11 +5,9 @@
             function (accountService) {
                 var self = this;
 
-                self.userNamePref = 'useemail';
-
                 self.register = function () {
                     accountService.register(self);
-                }
+                };
 
             }]);
 })();

@@ -100,20 +100,16 @@
 
         <div class="pane pane-heading">{{convo.Topic}}</div>
         <div class="pane pane-content">
-            <label ng-repeat="msg in convo.MessageList" class="pane pane-item">{{msg.Text}} <span>&nbsp;&nbsp;&mdash;&nbsp;&nbsp;{{msg.Contributor.FirstName}}</span></label>
+            <label ng-repeat="msg in convo.MessageList" class="pane pane-item pane-item-message">{{msg.Text}} <span>&nbsp;&nbsp;&mdash;&nbsp;&nbsp;{{msg.Contributor.FirstName}}</span><br /><sub>{{msg.TimeSubmitted}}</sub></label>
             <div ng-show="false" class="scroll scroll-up"><img src="../Content/arrow.png" /></div>
             <div ng-show="true" class="scroll scroll-down"><img src="../Content/arrow.png" /></div>
         </div>
-        <p>{{self.selectedFamily.currentConvo.Topic}}</p>
-        <p>{{self.selectedFamily.currentConvo.MessageList[0].Text}}</p>
-        <p>{{self.selectedFamily.currentConvo.MessageList[0].Contributor.FirstName}}</p>
         <!--footer/new message entry / go to family button-->
         <form class="pane pane-footer" ng-submit="self.addMessage(self[convo.Key].newMessage, self.selectedFamily.currentConvo)">
             <input ng-focus="self.selectedFamily.currentConvo = convo" ng-model="self[convo.Key].newMessage" type="text" placeholder="Add contribution here..." />
             <input ng-focus="self.selectedFamily.currentConvo = convo" type="submit" class="btn btn-default" value="Send" />
         </form>
     </div>
-    <p>{{self.selectedFamily.ConversationList[0].MessageList}}</p>
 
     <!--family box-->
     <div ng-if="self.page==='profile'" class="pane pane-container" ng-repeat="fam in self.families">

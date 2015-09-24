@@ -1,33 +1,33 @@
 ﻿<div>
-    
     <header>
         <h1>Welcome to famiLYNX!</h1>
     </header>
-    <div class="panel panel-default">
-        <div class="panel panel-heading">Login</div>
-        <div class="panel panel-content">
-            <form ng-show="true" novalidate ng-submit="self.login()">
-                <div class="panel panel-item">
-                    User Name:
-                    <input ng-id="username" required type="text" name="username" ng-model="self.username" />
-                    <span ng-show="username.ng-touched && username.$error.required">Please enter a user name</span>
-                </div>
-                <div class="panel panel-item">
-                    Password:
-                    <input ng-id="password" required type="password" name="password" ng-model="self.password" />
-                    <span ng-show="password.ng-touched && password.$error.required">Please enter a password</span>
-                </div>
-                <div class="panel panel-item">
-                    <input type="checkbox" value="false" />
-                    Remember Me
-                </div>
-                <div class="panel panel-item">
-                    <a href="#/register">Register as a new user</a> <br />
-                    <a href="#">Forgot Password</a>
-                    <input type="submit" value="Log in" class="btn btn-default" />
-                </div>
-            </form>
+    <div class="pane pane-container">
+        <div class="pane pane-heading">Login</div>
+        <div class="pane pane-content">
+
+            <div class="pane pane-item">
+                User Name:
+                <input ng-id="username" required type="text" name="username" ng-model="self.username" />
+                <span ng-show="username.ng-touched && username.$error.required">Please enter a user name</span>
+            </div>
+            <div class="pane pane-item">
+                Password:
+                <input ng-id="password" required type="password" name="password" ng-model="self.password" />
+                <span ng-show="password.ng-touched && password.$error.required">Please enter a password</span>
+            </div>
+            <div class="pane pane-item">
+                <input type="checkbox" value="false" />
+                Remember Me
+            </div>
+            <div class="pane pane-item">
+                <a href="#">Forgot Password</a>
+                <a href="#/register">Register as a new user</a> <br />
+            </div>
         </div>
+        <form class="pane pane-footer" ng-show=true" novalidate ng-submit="self.login()">
+            <input type="submit" value="Log in" class="btn btn-default" />
+        </form>
     </div>
     <style>
         #username.ng-pristine.ng-untouched.ng-dirty.ng-valid, #password.ng-pristine.ng-untouched.ng-dirty.ng-valid {

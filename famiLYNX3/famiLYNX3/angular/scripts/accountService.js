@@ -8,7 +8,20 @@
 
             self.register = function (user) {
                 new registerApi(user).$save(function (data) {
-                    location.hash = '#/profile';
+                    $http.post('/Token', "grant_type=password&username=" + self.username + "&password=" + self.password,
+                    {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                    .success(function (data) {
+                        token = data.access_token;
+                        $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+                        $location.path('/profile');
+                    })
+                    .error(function () {
+                        console.error('Error logging in.');
+                    });
                 });
             };
         });

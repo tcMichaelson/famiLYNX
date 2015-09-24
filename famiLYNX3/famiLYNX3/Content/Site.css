@@ -133,6 +133,24 @@ body {
     width: 25px;
 }
 
+.pane.pane-item.pane-item-message {
+    background-color: rgba(255,255,255,.4);
+    border-radius: 10px;
+    clear: both;
+    float: left;
+    padding-right: 20px;
+    max-width: 75%;
+    width: auto;
+}
+
+.pane.pane-item.pane-item-message > span {
+    float: right;
+    font-weight: normal;
+}
+
+.pane.pane-item.pane-item-message > sub{
+    font-weight: normal;
+}
 
 .pane.pane-footer{
     bottom: 0px;
