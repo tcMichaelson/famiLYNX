@@ -22,7 +22,15 @@
             }
 
             self.getFamilies = function () {
-                return getFam.query();
+                return getFam.query(function (data) {
+                    return data.forEach(function (fam) {
+                        fam.ConversationList.forEach(function (convo) {
+                            convo.MessageList.sort(function (first, second) {
+                                return first.TimeSubmitted < second.TimeSubmitted;
+                            });
+                        });
+                    });
+                });
             };
             self.getConversations = function () {
                 return getConvo.query();
