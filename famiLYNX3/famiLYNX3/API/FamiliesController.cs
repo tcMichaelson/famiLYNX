@@ -26,7 +26,7 @@ namespace famiLYNX3.API {
             var famUsers = _repo.Query<FamilyUser>().Where(m => m.UserId == currUser.Id).ToList();
             var fams = new List<Family>();
             foreach (var fam in famUsers) {
-                fams.Add(_repo.Query<Family>().Where(f => f.Key == fam.FamilyKey).Include(f => f.CreatedBy).Include(f => f.ConversationList.Select(c => c.MessageList.Select(m => m.Contributor))).Single());
+                fams.Add(_repo.Query<Family>().Where(f => f.Key == fam.FamilyKey).Include(f => f.CreatedBy).Include(f => f.ConversationList.Select(c => c.MessageList)).Single());                
             }
             return fams;
         }
