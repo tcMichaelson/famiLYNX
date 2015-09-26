@@ -7,6 +7,8 @@
 
                 self.register = function () {
                     accountService.register(self);
+
+                    });
                 };
 
             }]);

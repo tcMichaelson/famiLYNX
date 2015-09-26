@@ -2,14 +2,14 @@
     <header>
         <h1>Welcome to famiLYNX!</h1>
     </header>
-    <div class="pane pane-container">
+    <form class="pane pane-container login-register" ng-show="true" ng-submit="self.login()" novalidate>
         <div class="pane pane-heading">Login</div>
         <div class="pane pane-content">
 
             <div class="pane pane-item">
                 User Name:
                 <input ng-id="username" required type="text" name="username" ng-model="self.username" />
-                <span ng-show="username.ng-touched && username.$error.required">Please enter a user name</span>
+                <span ng-show="self.username.ng-touched && self.username.$error">Please enter a user name</span>
             </div>
             <div class="pane pane-item">
                 Password:
@@ -20,15 +20,15 @@
                 <input type="checkbox" value="false" />
                 Remember Me
             </div>
-            <div class="pane pane-item">
-                <a href="#">Forgot Password</a><br />
-                <a href="#/register">Register as a new user</a> <br />
+            <div class="pane pane-item pane-item-links">
+                <a href="#">Forgot Password</a>
+                <a href="#/register">Register as a new user</a>
             </div>
         </div>
-        <form class="pane pane-footer" ng-show="true" ng-submit="self.login()">
+        <div class="pane pane-footer">
             <input type="submit" value="Log in" class="btn btn-default" />
-        </form>
-    </div>
+        </div>
+    </form>
     <style>
         #username.ng-pristine.ng-untouched.ng-dirty.ng-valid, #password.ng-pristine.ng-untouched.ng-dirty.ng-valid {
             border: 1px solid black;

@@ -90,6 +90,10 @@ body {
     width: 500px;
 }
 
+.pane.pane-container.login-register{
+    height: 400px;
+}
+
 .pane.pane-heading{
     border-bottom: 3px solid #FFCC33;
     font-size: medium;
@@ -107,6 +111,31 @@ body {
     width: 100%;
     height: 80%;
     overflow: hidden;
+}
+
+.login-register .pane.pane-item {
+    padding: 10px;
+}
+
+.login-register .pane.pane-item img{
+    position: absolute;
+    right: 5%;
+    width: 5%;
+}
+
+.login-register input[type="text"],.login-register input[type="password"]{
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding: 5px;
+    font-weight: normal;
+    font-size: 1.2em;
+    width: 50%;
+}
+
+.login-register input[type="text"].ng-touched.ng-invalid, .login-register input[type="password"].ng-touched.ng-invalid {
+    
 }
 
 .pane.pane-item{
@@ -152,6 +181,24 @@ body {
     font-weight: normal;
 }
 
+.pane.pane-item.pane-item-links{
+
+}
+
+.pane.pane-item.pane-item-links a{
+    color: rgb(50,50,50);
+    display: block;
+    margin: 0 auto;
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    width: 40%;
+}
+
+.pane.pane-item a:hover{
+    background-color: #FFCC33
+}
+
 .pane.pane-footer{
     bottom: 0px;
     position: absolute;
@@ -188,152 +235,9 @@ body {
     position: absolute;
     width: 100%;
 }
-/*
-* {
-    outline: 1px solid red;
-}
 
-/*
-.panel.panel-container{
-    float: left;
-    position: relative;
-    margin: 10px;
-    
-}
-
-    .panel.panel-default {
-        background-color: #68889A;
-        border: none;
-        height: 400px;
-        position: absolute;
-        float: left;
-        width: 400px;
-    }
-
-    div.panel.panel-content {
-        border: none;
-        bottom: 0px;
-        height: 320px;
-        margin-bottom: 0px;
-        margin-top: 0px;
-        position: absolute;
-        width: 100%
-    }
-
-    .panel.panel-heading {
-        color: rgb(50,50,50);
-        background-color: #68889A;
-        font-size: medium;
-        text-align: center;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-bottom: 2px solid #FFCC33;
-        border-bottom-right-radius: 0px;
-        border-bottom-left-radius: 0px;
-        margin-bottom: 0px;
-        padding: 8px 8px;
-        top: 0px;
-        position: absolute;
+@media screen and (max-width: 800px){
+    .pane.pane-container{
         width: 100%;
     }
-
-.panel.panel-item {
-    border-radius: 0px;
-    font-weight: normal;
-    height: 40px;
-    left: 2.5%;
-    margin-top: 0px;
-    margin-bottom: 12px;
-    padding: 0px;
-    position: relative;
-    top: 50px;
-    width: 95%;
 }
-
-.panel.panel-item > input[type="text"] {
-    background-color: white;
-    border: none;
-    margin-top: 4px;
-    margin-left: 8px;
-}
-
-
-form input[type="submit"]:only-child {
-    border-bottom-right-radius: 3px;
-    width: 100%;
-}
-
-.panel.panel-item button {
-    border: none;
-    height: 40px;
-    margin: 0px;
-    position: absolute;
-    right: -1px;
-    top: -1px;
-}
-
-input.panel.panel-footer {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    display: inline-block;
-    margin-bottom: 0px;
-    padding: 0px 10px;
-    width: 334px;
-}
-
-    input.panel.panel-footer + input[type="submit"] {
-        background-color: rgb(215,215,215);
-        bottom: 0px;
-        border: none;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 0;
-        height: 40px;
-        position: absolute;
-        right: 0px;
-        width: 65px;
-    }
-
-.panel-footer {
-    bottom: 0px;
-    border: none;
-    height: 40px;
-    position: absolute;
-}
-
-.panel-content {
-    background-color: #68889A;
-}
-
-
-
-.messagetext {
-}
-
-.list-group-item {
-    border: 1px solid #cccccc;
-}
-
-.control-label.list-group-item {
-    border: none;
-}
-
-form[action="messages/create"] {
-    position: absolute;
-    height: 30px;
-}
-
-.form-group-sm .list-group-item {
-    padding: 5px 15px;
-}
-
-.closebox, .subscribeToggle > img {
-    float: right;
-    position: relative;
-    height: 30px;
-    width: 30px;
-}
-
-*/

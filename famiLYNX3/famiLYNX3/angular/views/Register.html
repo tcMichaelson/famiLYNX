@@ -2,32 +2,48 @@
     <header>
         <h1>Welcome to famiLYNX</h1>
     </header>
-    <div class="pane pane-container">
+    <form class="pane pane-container login-register" name="registerForm" ng-submit="self.register()" novalidate>
         <div class="pane pane-heading">Register</div>
         <div class="pane pane-content">
 
             <div class="pane pane-item">
-                E-Mail:<br />
-                <input type="text" ng-model="self.Email" />
+                First Name:
+                <input type="text" name="firstName" ng-model="self.FirstName" required placeholder="A label for your messages"/>
+                <img src="/Content/ex.png" ng-show="registerForm.firstName.$touched && registerForm.firstName.$error.required" />
+                <img src="/Content/checkmark.png" ng-show="registerForm.firstName.$touched && !registerForm.firstName.$error.required" />
             </div>
 
             <div class="pane pane-item">
-                Password:<br />
-                <input type="password" ng-model="self.Password" />
-            </div>
-            <div class="pane pane-item">
-                Confirm Password:<br />
-                <input type="password" ng-model="self.ConfirmPassword" />
+                E-Mail:
+                <input type="text" name="Email" ng-model="self.Email" required placeholder="This acts as your username"/>
+                <img src="/Content/ex.png" ng-show="registerForm.Email.$touched && registerForm.Email.$error.required" />
+                <img src="/Content/checkmark.png" ng-show="registerForm.Email.$touched && !registerForm.Email.$error.required" />
             </div>
 
             <div class="pane pane-item">
-                First Name:<br />
-                <input type="text" ng-model="self.FirstName" />
+                Password:
+                <input type="password" name="password" ng-model="self.Password" ng-minlength="6" required placeholder="Enter a secure password"/>
+                <img src="/Content/ex.png" ng-show="registerForm.password.$touched && (registerForm.password.$error.required || registerForm.password.$error.minlength)" />
+                <img src="/Content/checkmark.png" ng-show="registerForm.password.$touched && !registerForm.password.$error.required && !registerForm.password.$error.minlength" />
             </div>
+            <div class="pane pane-item">
+                Confirm Password:
+                <input type="password" name="confirmPassword" ng-model="self.ConfirmPassword" ng-minlength="6" required ng-disabled="registerForm.password.$error.minlength" placeholder="Verify your password" />
+                <img src="/Content/ex.png" ng-show="!registerForm.confirmPassword.$pristine && self.Password !== self.ConfirmPassword" />
+                <img src="/Content/checkmark.png" ng-show="!registerForm.confirmPassword.$pristine && self.Password === self.ConfirmPassword" />
+            
+            </div>
+
+            <div style="margin-top: 4%; font-size: 1.3em; color: #FFCC33; text-align: center;" ng-show="!registerForm.$error.required && !registerForm.$error.minlength && self.Password === self.ConfirmPassword">
+                Hey, looks like we didn't have any problems! <br />
+                Click Register to get started!
+                <div ng-repeat="err in self.errormessage['']">{{err}}</div>
+            </div>
+
         </div>
 
-        <form class="pane pane-footer" name="registerForm" ng-submit="self.register()">
-            <input type="submit" value="Register" />
-        </form>
-    </div>
+        <div class="pane pane-footer">
+            <input type="submit" value="Register" ng-disabled="registerForm.$error.required || registerForm.$error.minlength || self.Password !== self.ConfirmPassword" />
+        </div>
+    </form>
 </div>

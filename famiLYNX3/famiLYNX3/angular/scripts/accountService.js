@@ -1,7 +1,7 @@
 ﻿(function () {
     angular
         .module('famiLYNX')
-        .service('accountService', function ($location, $resource, routeUrls) {
+        .service('accountService', ['$http','$location','$resource', 'routeUrls', function ($http, $location, $resource, routeUrls) {
             var self = this;
 
             var registerApi = $resource(routeUrls.registerUser);
@@ -19,10 +19,12 @@
                         $http.defaults.headers.common.Authorization = 'Bearer ' + token;
                         $location.path('/profile');
                     })
-                    .error(function () {
-                        console.error('Error logging in.');
+                    .error(function (error) {
+                        console.log("Something went wrong");
                     });
+                }, function (xhr) {
+                    return xhr.data.ModelState[''];
                 });
             };
-        });
+        }]);
 })();
