@@ -8,21 +8,20 @@
 
             <div class="pane pane-item">
                 First Name:
-                <input type="text" name="firstName" ng-model="self.FirstName" required placeholder="A label for your messages"/>
+                <input type="text" name="firstName" ng-model="self.FirstName" required placeholder="A label for your messages" />
                 <img src="/Content/ex.png" ng-show="registerForm.firstName.$touched && registerForm.firstName.$error.required" />
                 <img src="/Content/checkmark.png" ng-show="registerForm.firstName.$touched && !registerForm.firstName.$error.required" />
             </div>
 
             <div class="pane pane-item">
                 E-Mail:
-                <input type="text" name="Email" ng-model="self.Email" required placeholder="This acts as your username"/>
-                <img src="/Content/ex.png" ng-show="registerForm.Email.$touched && registerForm.Email.$error.required" />
-                <img src="/Content/checkmark.png" ng-show="registerForm.Email.$touched && !registerForm.Email.$error.required" />
+                <input ng-focus="self.isValidEmail()" ng-blur="self.isValidEmail()" type="text" name="Email" ng-model-options="{debounce: 1000}" ng-change="self.validateEmail(self)" ng-model="self.Email" required placeholder="This acts as your username" />
+                <img src="/Content/ex.png" ng-show="registerForm.Email.$touched && (registerForm.Email.$error.required || self.emailResults.Content.search(self.emailString) !== -1)" />
+                <img src="/Content/checkmark.png" ng-show="registerForm.Email.$touched && !registerForm.Email.$error.required && self.emailResults.Content.search(self.emailString) === -1" />
             </div>
-
             <div class="pane pane-item">
                 Password:
-                <input type="password" name="password" ng-model="self.Password" ng-minlength="6" required placeholder="Enter a secure password"/>
+                <input type="password" name="password" ng-model="self.Password" ng-minlength="6" required placeholder="Enter a secure password" />
                 <img src="/Content/ex.png" ng-show="registerForm.password.$touched && (registerForm.password.$error.required || registerForm.password.$error.minlength)" />
                 <img src="/Content/checkmark.png" ng-show="registerForm.password.$touched && !registerForm.password.$error.required && !registerForm.password.$error.minlength" />
             </div>
@@ -31,17 +30,17 @@
                 <input type="password" name="confirmPassword" ng-model="self.ConfirmPassword" ng-minlength="6" required ng-disabled="registerForm.password.$error.minlength" placeholder="Verify your password" />
                 <img src="/Content/ex.png" ng-show="!registerForm.confirmPassword.$pristine && self.Password !== self.ConfirmPassword" />
                 <img src="/Content/checkmark.png" ng-show="!registerForm.confirmPassword.$pristine && self.Password === self.ConfirmPassword" />
-            
-            </div>
 
-            <div style="margin-top: 4%; font-size: 1.3em; color: #FFCC33; text-align: center;" ng-show="!registerForm.$error.required && !registerForm.$error.minlength && self.Password === self.ConfirmPassword">
-                Hey, looks like we didn't have any problems! <br />
-                Click Register to get started!
-                <div ng-repeat="err in self.errormessage['']">{{err}}</div>
+            </div>
+            <div style="margin-top: 4%; font-size: 1.3em; color: #FFCC33; text-align: center;">
+                <div ng-show="self.errormessage === false && (!registerForm.$error.required && !registerForm.$error.minlength && self.Password === self.ConfirmPassword)">
+                    Hey, looks like we didn't have any problems! <br />
+                    Click Register to get started!
+                </div>
+                <div ng-repeat="err in self.errormessage">{{err}}</div>
             </div>
 
         </div>
-
         <div class="pane pane-footer">
             <input type="submit" value="Register" ng-disabled="registerForm.$error.required || registerForm.$error.minlength || self.Password !== self.ConfirmPassword" />
         </div>
