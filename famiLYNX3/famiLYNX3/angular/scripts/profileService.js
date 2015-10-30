@@ -3,15 +3,16 @@
         .module('famiLYNX')
         .service('profileService', ['$resource', 'routeUrls', function ($resource, routeUrls) {
             var self = this;
-            var profileApi = $resource(routeUrls.userApi, {}, {});
-            var updateUserApi = $resource(routeUrls.updateUser, {}, {});
-            var getFam = $resource(routeUrls.famApi, {}, {});
-            var getConvo = $resource(routeUrls.convoApi, {}, {});
-            var getMsg = $resource(routeUrls.msgApi, {}, {});
-            var getInvite = $resource(routeUrls.invApi, {}, {});
-            var ownedFamilies = $resource(routeUrls.famsOwnedApi, {}, {});
-            var postFamilies = $resource(routeUrls.famsPost, {}, {});
-            var logout = $resource(routeUrls.logOut, {}, {});
+
+            var profileApi = $resource(routeUrls.userApi, {}, {});  //UsersController/Currentuser (Get(int id))
+            var updateUserApi = $resource(routeUrls.updateUser, {}, {}); //Userscontroller/UpdateUser (Post)
+            var getFam = $resource(routeUrls.famApi, {}, {}); //FamiliesController/Families (Get)
+            var getConvo = $resource(routeUrls.convoApi, {}, {}); //ConversationsController
+            var getMsg = $resource(routeUrls.msgApi, {}, {}); //MessagesController
+            var getInvite = $resource(routeUrls.invApi, {}, {}); //InviteOrPleasController/InviteOrPleas (Get)
+            var ownedFamilies = $resource(routeUrls.famsOwnedApi, {}, {}); //FamiliesController/OwnedFamilies
+            var postFamilies = $resource(routeUrls.famsPost, {}, {}); //FamiliesController/CreateUpdateFamily
+            var logout = $resource(routeUrls.logOut, {}, {}); //AccountsController/Logout
 
             self.getUser = function () {
                 return profileApi.get({ id: 0 });
@@ -25,9 +26,14 @@
                 return getFam.query(function (data) {
                     return data.forEach(function (fam) {
                         fam.ConversationList.forEach(function (convo) {
-                            convo.MessageList.sort(function (first, second) {
-                                return first.TimeSubmitted < second.TimeSubmitted;
+                            convo.MessageList = convo.MessageList.sort(function (first, second) {
+                                if (second.TimeSubmitted < first.TimeSubmitted) {
+                                    return -1;
+                                } else {
+                                    return 1;
+                                }
                             });
+                            console.log(convo.MessageList);
                         });
                     });
                 });

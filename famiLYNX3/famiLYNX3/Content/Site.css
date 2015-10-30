@@ -163,7 +163,7 @@ body {
 }
 
 .pane.pane-item.pane-item-message {
-    background-color: rgba(255,255,255,.4);
+    background-color: white;
     border-radius: 10px;
     clear: both;
     float: left;

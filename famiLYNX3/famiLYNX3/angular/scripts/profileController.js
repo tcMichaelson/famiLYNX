@@ -7,7 +7,6 @@
             var self = this;
 
             self.user = profileService.getUser();
-            self.convos = profileService.getConversations();
             self.inviteOrPleas = profileService.getInviteOrPleas();
             self.ownedFamilies = profileService.getOwned();
             self.families = profileService.getFamilies();
